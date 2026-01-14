@@ -1,19 +1,11 @@
 """API routes."""
-from flask import jsonify, request, current_app
+from flask import jsonify, request, current_app, render_template
 from app.api import api_bp
 
 
-@api_bp.route('/', methods=['GET'])
-def api_index():
-    """API root endpoint."""
-    return jsonify({
-        'message': 'API endpoint',
-        'version': '1.0.0',
-        'endpoints': {
-            'examples': '/api/examples',
-            'echo': '/api/echo'
-        }
-    }), 200
+@api_bp.route('/')
+def index():
+    return render_template('index.html')
 
 
 @api_bp.route('/examples', methods=['GET'])

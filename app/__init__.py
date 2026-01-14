@@ -42,8 +42,8 @@ def create_app(config_name: str = None) -> Flask:
     from app.api import api_bp
     from app.api.health import health_bp
     
-    app.register_blueprint(health_bp)
-    app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(api_bp)
+    app.register_blueprint(health_bp, url_prefix='/api')
     
     # Configure logging
     configure_logging(app)
