@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Generic Flask Server{% endblock %}
+
+{% block content %}
+<div style="padding: 2rem 0;">
+    <h2>Welcome to Generic Flask Server</h2>
+    <p>A production-ready Flask WSGI server template.</p>
+    
+    <div style="margin-top: 2rem;">
+        <h3>Available Endpoints</h3>
+        <ul>
+            <li><a href="/health">Health Check</a></li>
+            <li><a href="/api/">API Index</a></li>
+            <li><a href="/api/examples">Examples API</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
