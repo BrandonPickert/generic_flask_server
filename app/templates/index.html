@@ -1,19 +1,102 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Generic Flask Server{% endblock %}
+{% block title %}Home - Flask Server{% endblock %}
 
 {% block content %}
-<div style="padding: 2rem 0;">
-    <h2>Welcome to Generic Flask Server</h2>
-    <p>A production-ready Flask WSGI server template.</p>
+<div class="hero">
+    <div class="success-icon">
+        <svg viewBox="0 0 100 100" width="80" height="80">
+            <circle cx="50" cy="50" r="45" fill="#10b981" opacity="0.2"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="3"/>
+            <path d="M30 50 L45 65 L70 35" stroke="#10b981" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
     
-    <div style="margin-top: 2rem;">
-        <h3>Available Endpoints</h3>
-        <ul>
-            <li><a href="/health">Health Check</a></li>
-            <li><a href="/api/">API Index</a></li>
-            <li><a href="/api/examples">Examples API</a></li>
-        </ul>
+    <h1 class="hero-title">Your Flask Server is Up and Running!</h1>
+    <p class="hero-subtitle">Everything is configured and ready to handle requests</p>
+    
+    <div class="info-cards">
+        <div class="info-card">
+            <div class="card-icon">🌐</div>
+            <h3>Access Your Server</h3>
+            <p class="server-url" id="serverUrl">Loading...</p>
+            <p class="hint">Use this URL to make API requests</p>
+        </div>
+        
+        <div class="info-card">
+            <div class="card-icon">🔌</div>
+            <h3>API Endpoints</h3>
+            <div class="endpoint-list">
+                <a href="/api/health" class="endpoint-link">
+                    <span class="method">GET</span>
+                    <span class="path">/api/health</span>
+                </a>
+                <a href="/api/examples" class="endpoint-link">
+                    <span class="method">GET</span>
+                    <span class="path">/api/examples</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="card-icon">📚</div>
+            <h3>Quick Start</h3>
+            <div class="code-block">
+                <code>curl <span id="curlUrl">http://your-server/api/health</span></code>
+            </div>
+            <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+        </div>
+    </div>
+    
+    <div class="status-footer">
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>Server Status: <strong>Operational</strong></span>
+        </div>
+        <div class="server-info">
+            <span id="serverTime"></span>
+        </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Update server URL and time
+    function updateServerInfo() {
+        const protocol = window.location.protocol;
+        const host = window.location.host;
+        const serverUrl = `${protocol}//${host}`;
+        
+        document.getElementById('serverUrl').textContent = serverUrl;
+        document.getElementById('curlUrl').textContent = `${serverUrl}/api/health`;
+        
+        // Update time
+        const now = new Date();
+        document.getElementById('serverTime').textContent = 
+            `Server Time: ${now.toLocaleTimeString()}`;
+    }
+    
+    // Copy to clipboard
+    function copyToClipboard() {
+        const text = document.getElementById('curlUrl').textContent;
+        navigator.clipboard.writeText(`curl ${text}`).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.style.background = '#10b981';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        });
+    }
+    
+    // Initialize
+    updateServerInfo();
+    setInterval(() => {
+        document.getElementById('serverTime').textContent = 
+            `Server Time: ${new Date().toLocaleTimeString()}`;
+    }, 1000);
+</script>
 {% endblock %}

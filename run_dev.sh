@@ -13,4 +13,4 @@ export FLASK_ENV=development
 export FLASK_APP=wsgi.py
 
 # Run the development server
-python wsgi.py
+python3 wsgi.py
