@@ -1,0 +1,29 @@
+[Unit]
+Description=Flask Generic Server
+After=network.target
+
+[Service]
+Type=notify
+User=norcat
+Group=norcat
+WorkingDirectory=/home/norcat/git/generic_flask_server
+Environment="PATH=/home/norcat/git/generic_flask_server/venv/bin"
+EnvironmentFile=/home/norcat/git/generic_flask_server/.env
+ExecStart=/home/norcat/git/generic_flask_server/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=5
+
+# Security settings
+NoNewPrivileges=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/norcat/git/generic_flask_server/logs
+ReadWritePaths=/home/norcat/git/generic_flask_server/instance
+
+[Install]
+WantedBy=multi-user.target
